@@ -18,7 +18,7 @@
 
     <div class="glass-container">
         <header>
-            <div class="logo">
+            <div class="logo" id="logoBtn" style="cursor: pointer;" title="Kattints a chat megnyitásához!">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
@@ -107,6 +107,24 @@
         </div>
     </div>
 
+    <!-- Chat Window -->
+    <div id="chatWindow" class="chat-window hidden">
+        <div class="chat-header">
+            <h3>Közösségi Chat</h3>
+            <button id="btnCloseChat" class="btn icon-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+        <div id="chatMessages" class="chat-messages">
+            <!-- Messages will appear here -->
+        </div>
+        <div class="chat-input-wrapper">
+            <input type="text" id="chatInput" placeholder="Írj egy üzenetet..." autocomplete="off">
+            <button id="btnSendChat" class="btn primary-btn small-btn">Küldés</button>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
     <script src="/script.js"></script>
 </body>
 

@@ -134,4 +134,80 @@ document.addEventListener('DOMContentLoaded', () => {
     btnBackError.addEventListener('click', () => {
         window.location.href = '/';
     });
+    
+    // --- Chat Logic ---
+    const logoBtn = document.getElementById('logoBtn');
+    const chatWindow = document.getElementById('chatWindow');
+    const btnCloseChat = document.getElementById('btnCloseChat');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const btnSendChat = document.getElementById('btnSendChat');
+    
+    // Toggle Chat
+    logoBtn.addEventListener('click', () => {
+        chatWindow.classList.toggle('hidden');
+        if (!chatWindow.classList.contains('hidden')) {
+            chatInput.focus();
+            scrollToBottom();
+        }
+    });
+    
+    btnCloseChat.addEventListener('click', () => {
+        chatWindow.classList.add('hidden');
+    });
+    
+    // Initialize Socket
+    let socket;
+    try {
+        socket = io();
+    } catch(e) {
+        console.warn('Socket.io not loaded.');
+    }
+
+    if (socket) {
+        socket.on('chatHistory', (history) => {
+            chatMessages.innerHTML = '';
+            history.forEach(appendMessage);
+            scrollToBottom();
+        });
+
+        socket.on('newMessage', (msg) => {
+            appendMessage(msg);
+            scrollToBottom();
+        });
+
+        function appendMessage(msg) {
+            const div = document.createElement('div');
+            div.className = 'chat-message';
+            div.textContent = msg.text;
+            
+            const timeSpan = document.createElement('span');
+            timeSpan.className = 'chat-time';
+            timeSpan.textContent = msg.time;
+            div.appendChild(timeSpan);
+            
+            chatMessages.appendChild(div);
+            // Add some margin bottom for the absolute time
+            div.style.marginBottom = '18px';
+        }
+
+        function sendMessage() {
+            const text = chatInput.value.trim();
+            if (text) {
+                socket.emit('sendMessage', { text });
+                chatInput.value = '';
+            }
+        }
+
+        btnSendChat.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+        
+        function scrollToBottom() {
+            setTimeout(() => {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 50);
+        }
+    }
 });

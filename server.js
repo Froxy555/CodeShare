@@ -2,9 +2,17 @@ const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
 const path = require('path');
+const http = require('http');
+const { Server } = require('socket.io');
 
 const app = express();
-const port = 3000;
+const server = http.createServer(app);
+const io = new Server(server);
+const port = process.env.PORT || 3000;
+
+// Store recent chat messages in memory
+const chatHistory = [];
+
 
 app.use(cors());
 app.use(express.json());
@@ -90,6 +98,27 @@ app.use((req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(port, () => {
+// Socket.IO Chat logic
+io.on('connection', (socket) => {
+    // Send history to new user
+    socket.emit('chatHistory', chatHistory);
+
+    socket.on('sendMessage', (msg) => {
+        const messageData = {
+            id: Date.now(),
+            text: msg.text,
+            time: new Date().toLocaleTimeString('hu-HU', { hour: '2-digit', minute: '2-digit' })
+        };
+        
+        // Keep only last 50 messages
+        chatHistory.push(messageData);
+        if (chatHistory.length > 50) chatHistory.shift();
+
+        // Broadcast to everyone
+        io.emit('newMessage', messageData);
+    });
+});
+
+server.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
