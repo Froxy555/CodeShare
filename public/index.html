@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burnbin - Egyszeri Titkos Kódmegosztó</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <div class="background-animation"></div>
+
+    <div class="glass-container">
+        <header>
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    <path d="m9 12 2 2 4-4"></path>
+                </svg>
+
+            </div>
+
+        </header>
+
+        <!-- View: Create Snippet -->
+        <div id="view-create" class="view active">
+            <div class="input-group">
+
+                <textarea id="codeInput"
+                    placeholder="function helloWorld() {&#10;  console.log('Secret message...');&#10;}"
+                    spellcheck="false"></textarea>
+            </div>
+            <button id="btnShare" class="btn primary-btn">
+                <span> Link Létrehozása</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </button>
+            <div id="shareResult" class="result-box hidden">
+                <p>A kódod elkészült! Oszd meg ezt a linket (csak EGYSZER fog működni):</p>
+                <div class="link-display">
+                    <input type="text" id="shareUrl" readonly>
+                    <button id="btnCopyUrl" class="btn secondary-btn" title="Link Másolása">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- View: Read Snippet -->
+        <div id="view-read" class="view hidden">
+            <div class="alert warning">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                    </path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+
+            </div>
+            <div class="code-display-wrapper">
+                <div class="code-header">
+                    <span class="code-title"></span>
+                    <button id="btnCopyCode" class="btn icon-btn" title="Kód Másolása">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Másolás
+                    </button>
+                </div>
+                <pre><code id="codeDisplay"></code></pre>
+            </div>
+            <button id="btnNew" class="btn outline-btn">Új kód</button>
+        </div>
+
+        <!-- View: Loading -->
+        <div id="view-loading" class="view hidden">
+            <div class="loader"></div>
+            <p>Kód visszafejtése...</p>
+        </div>
+
+        <!-- View: Error / Not Found -->
+        <div id="view-error" class="view hidden">
+            <div class="error-icon">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                </svg>
+            </div>
+            <h2 id="errorTitle">Nem Található</h2>
+
+            <button id="btnBackError" class="btn outline-btn">Vissza a Főoldalra</button>
+        </div>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+
+</html>

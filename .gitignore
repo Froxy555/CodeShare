@@ -1,0 +1,4 @@
+node_modules/
+snippets.db
+.env
+.DS_Store
