@@ -143,12 +143,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatInput = document.getElementById('chatInput');
     const btnSendChat = document.getElementById('btnSendChat');
     
-    // Toggle Chat
-    logoBtn.addEventListener('click', () => {
-        chatWindow.classList.toggle('hidden');
-        if (!chatWindow.classList.contains('hidden')) {
-            chatInput.focus();
-            scrollToBottom();
+    // Toggle Chat with Keyboard Shortcut (Alt + C)
+    document.addEventListener('keydown', (e) => {
+        // Check for Alt + C (case insensitive)
+        if (e.altKey && e.key.toLowerCase() === 'c') {
+            e.preventDefault(); // Prevent default browser behavior if any
+            chatWindow.classList.toggle('hidden');
+            if (!chatWindow.classList.contains('hidden')) {
+                chatInput.focus();
+                scrollToBottom();
+            }
         }
     });
     
